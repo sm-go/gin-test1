@@ -4,6 +4,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+///form bilding
+
+type myForm struct {
+	Colors []string `form:"colors"`
+}
+
+func formHandler(c *gin.Context) {
+	var fakeForm myForm
+	c.ShouldBind(&fakeForm)
+	c.JSON(200, gin.H{"color": fakeForm.Colors})
+}
+
+//end form bilding
+
 type StructA struct {
 	FieldA string `form:"field_a"`
 }
@@ -57,6 +71,7 @@ func main() {
 	r.GET("/getb", GetDataB)
 	r.GET("/getc", GetDataC)
 	r.GET("/getd", GetDataD)
+	r.POST("/getform", formHandler)
 
 	r.Run()
 }
