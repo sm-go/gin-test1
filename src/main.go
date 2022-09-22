@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -77,6 +79,21 @@ func main() {
 	r.GET("/status", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "ok")
 	})
+
+	//creating log file
+	// Disable Console Color, you don't need console color when writing the logs to file.
+	gin.DisableConsoleColor()
+
+	// Logging to a file.
+	f, _ := os.Create("gin.log")
+	gin.DefaultWriter = io.MultiWriter(f)
+
+	r.GET("/ping", func(c *gin.Context) {
+		c.String(200, "pong")
+	})
+
+	// Use the following code if you need to write the logs to file and console at the same time.
+	// gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
 	//upload the file
 	// r.MaxMultipartMemory = 8 << 20
