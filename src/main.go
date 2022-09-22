@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -59,6 +60,23 @@ func main() {
 		v2.PUT("/products/:id", UpdateProducts)
 		v2.DELETE("/products/:id", DeleteProducts)
 	}
+
+	//custom log file print
+	gin.DebugPrintRouteFunc = func(httpMethod, absolutePath, handlerName string, nuHandlers int) {
+		log.Printf("endpoint %v %v %v %v\n", absolutePath, handlerName, nuHandlers, httpMethod)
+	}
+
+	r.POST("/foo", func(c *gin.Context) {
+		c.JSON(http.StatusOK, "foo")
+	})
+
+	r.GET("/bar", func(c *gin.Context) {
+		c.JSON(http.StatusOK, "bar")
+	})
+
+	r.GET("/status", func(c *gin.Context) {
+		c.JSON(http.StatusOK, "ok")
+	})
 
 	//upload the file
 	// r.MaxMultipartMemory = 8 << 20
