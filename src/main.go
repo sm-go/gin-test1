@@ -24,7 +24,7 @@ func main() {
 		})
 	})
 
-	r.GET("/login", Login)
+	r.POST("/login", Login)
 	r.POST("/register", Register)
 
 	r.GET("/home", homePage)
@@ -156,10 +156,9 @@ func main() {
 
 func Login(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"message": "hey! this is Loign page...",
+		"message": "hey! this is to login",
 	})
 }
-
 func Register(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "hey! this is to register",
